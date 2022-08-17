@@ -4,7 +4,7 @@ from loader import dp, bot
 # for change leng funtion
 from states.all_states import All_states
 global image,j
-
+#
 # for user korzinka
 class Korzinka:
     def __init__(self):
