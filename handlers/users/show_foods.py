@@ -1,10 +1,27 @@
 from aiogram import types
-from keyboards.inline.foods import foods_button, foods
+from keyboards.inline.foods import foods_button, foods, order, food_count, user_order
 from loader import dp, bot
 # for change leng funtion
 from states.all_states import All_states
+global image,j
+
+# for user korzinka
+class Korzinka:
+    def __init__(self):
+        pass
+
+    def count(self):
+        count=0
+
+    def food_name(self):
+        food_name = ""
 
 
+# user info
+def user_info():
+    pass
+
+# for lang
 def change_leng():
     leng = ""
 
@@ -34,11 +51,32 @@ async def show_food_info(call : types.CallbackQuery):
         if i["name"]==call.data:
             j = i
     # hato rasimda bogan ekan rasmni jonatsa boldi end
-    await call.bot.send_photo(chat_id=call.message.chat.id,photo=j["image"],caption=f"{j['discribtion']} {j['name']}")
+    await call.bot.send_photo(chat_id=call.message.chat.id,photo=j["image"],caption=f"{j['discribtion']} {j['name']}",reply_markup=order)
+    global image
+    image=j
 
-# orqaga button uchun function
-# @dp.callback_query_handler(text="orqaga",state=All_states.change_foods)
-# async def for_back(call : types.CallbackQuery):
-#     await call.message.answer("Orqaga",reply_markup=foods_button)
-#     await All_states.change_foods.set()
-#
+# food count
+@dp.callback_query_handler(text=[1,2,3,4,5,6,7,8,9],state=All_states.change_foods)
+async def food_order(call : types.CallbackQuery):
+    count=+int(call.data)
+    Korzinka.count=count
+    Korzinka.food_name=image["name"]
+    await call.bot.send_photo(chat_id=call.message.chat.id,photo=image["image"],caption=f"{image['discribtion']} {image['name']}",reply_markup=user_order)
+    await call.answer(count)
+
+# food + or -
+@dp.callback_query_handler(text=["minus","plus"],state=All_states.change_foods)
+async def food_plus_misu(call : types.CallbackQuery):
+    if call.data=="plus":
+        Korzinka.count+=1
+        await call.message.answer(f"{Korzinka.count}")
+        # await All_states.change_foods.set()
+    else:
+        Korzinka.count-=1
+        await call.message.answer(f"{Korzinka.count}")
+        # await All_states.change_foods.set()
+
+# korzinka
+@dp.callback_query_handler(text="savatcha",state=All_states.change_foods)
+async def korzinka(call : types.CallbackQuery):
+    await call.bot.send_photo(chat_id=call.message.chat.id,photo=image["image"],caption=f"{image['discribtion']} \n\n Buyurtmangiz {Korzinka.food_name} {Korzinka.count} ta")
