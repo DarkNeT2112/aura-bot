@@ -41,4 +41,3 @@ async def show_food_info(call : types.CallbackQuery):
 # async def for_back(call : types.CallbackQuery):
 #     await call.message.answer("Orqaga",reply_markup=foods_button)
 #     await All_states.change_foods.set()
-# dark
