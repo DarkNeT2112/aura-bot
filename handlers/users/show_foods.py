@@ -12,7 +12,7 @@ def change_leng():
 @dp.message_handler(text="🇺🇿 Uz",state=All_states.change_lang)
 async def for_uz_lang(msg : types.Message):
     change_leng = 'uz'
-    await msg.answer("📖 Menyular",reply_markup=foods_button)
+    await msg.bot.send_photo(chat_id=msg.chat.id,reply_markup=foods_button,caption="📖 Menyular",photo="https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8Nnx8fGVufDB8fHx8&w=1000&q=80")
     await All_states.change_foods.set()
 
 # ruga langa def
